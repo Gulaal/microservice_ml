@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+torch
+torchvision
+numpy
+scikit-image
+python-multipart
