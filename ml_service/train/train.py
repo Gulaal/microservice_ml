@@ -38,7 +38,7 @@ test_dataset = datasets.MNIST(
 train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False)
 
-print(f"✅ Данные загружены: {len(train_dataset)} тренировочных, {len(test_dataset)} тестовых")
+print(f"Данные загружены: {len(train_dataset)} тренировочных, {len(test_dataset)} тестовых")
 
 model = MNISTCNN().to(DEVICE)
 optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
@@ -83,4 +83,4 @@ for epoch in range(1, EPOCHS + 1):
 
 os.makedirs("../models", exist_ok=True)
 torch.save(model.state_dict(), "../models/mnist_cnn.pth")
-print("✅ Модель сохранена в models/mnist_cnn.pth")
+print("Модель сохранена в models/mnist_cnn.pth")

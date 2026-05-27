@@ -6,7 +6,6 @@ from .schemas import ImageData, PredictionResponse
 
 app = FastAPI()
 
-
 model = MNISTCNN()
 model.load_state_dict(torch.load("models/mnist_cnn.pth", map_location=torch.device('cpu')))
 model.eval()
