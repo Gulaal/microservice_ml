@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Распознавание цифр | 28x28 canvas</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>✍️ Нарисуйте цифру</h1>
+    <canvas id="canvas" width="280" height="280"></canvas>
+    <div class="buttons">
+        <button id="clearBtn">🗑️ Очистить</button>
+        <button id="recognizeBtn">🔍 Распознать</button>
+    </div>
+    <div id="result" class="result"></div>
+    <div id="probabilities" class="probabilities"></div>
+    <div id="stats" class="stats"></div>
+</div>
+<script src="/static/script.js"></script>
+</body>
+</html>
