@@ -1,0 +1,64 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: mnist_postgres
+    environment:
+      POSTGRES_USER: mnist_user
+      POSTGRES_PASSWORD: mnist_pass
+      POSTGRES_DB: mnist_history
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mnist_user -d mnist_history"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mnist_network
+
+  ml-service:
+    build: ./ml_service
+    container_name: mnist_ml
+    ports:
+      - "8001:8001"
+    networks:
+      - mnist_network
+    restart: unless-stopped
+
+  history-service:
+    build: ./history_service
+    container_name: mnist_history
+    ports:
+      - "8002:8002"
+    environment:
+      DATABASE_URL: postgresql://mnist_user:mnist_pass@postgres:5432/mnist_history
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - mnist_network
+    restart: unless-stopped
+
+  web-service:
+    build: ./web_service
+    container_name: mnist_web
+    ports:
+      - "8000:8000"
+    environment:
+      ML_SERVICE_URL: http://ml-service:8001
+      HISTORY_SERVICE_URL: http://history-service:8002
+    depends_on:
+      - ml-service
+      - history-service
+    networks:
+      - mnist_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  mnist_network:
+    driver: bridge
